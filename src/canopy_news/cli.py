@@ -75,6 +75,9 @@ def main(argv: list[str] | None = None) -> None:
     cl.add_argument("--gold-set", help="restrict to this gold set's articles (the repeat run)")
     cl.add_argument("--limit", type=int, help="submit: at most N articles")
 
+    va = sub.add_parser("validate", help="precision, recall, agreement against a gold set")
+    va.add_argument("--set", required=True, help="gold set, e.g. gold-v1")
+
     rl = sub.add_parser("release", help="build the release files (no article text)")
     rl.add_argument("--version", required=True, help="dataset version, e.g. 1.0.0")
 
@@ -196,6 +199,9 @@ def main(argv: list[str] | None = None) -> None:
         else:
             out = classify.status(lay, args.run)
         print(json.dumps(out, indent=2))
+    elif args.cmd == "validate":
+        from canopy_news import validate
+        print(json.dumps(validate.run(lay, args.set), indent=2))
     elif args.cmd == "release":
         from canopy_news import release
         print(json.dumps(release.build(lay, args.version), indent=2))

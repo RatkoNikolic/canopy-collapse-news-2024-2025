@@ -47,6 +47,7 @@ detached. Only the nine outlets with `collect = yes` and only the window
 | 14 | Gold set | `canopy-news labels draw --set gold-v1 --round <drand round in PROTOCOL.md §6.1>`, then `labels page --set gold-v1 --coder R1` (R2, R3) | `gold/scope_labels/gold-v1/` (sample, assignment, beacon record), `builds/labelling/` |
 | 15 | Labels | `canopy-news labels import --set gold-v1 <export>` | `gold/scope_labels/gold-v1/labels.jsonl` |
 | 16 | Scope stage 3: classifier ($) | `canopy-news classify run --run main --budget <USD>`; stability: `classify run --run repeat --gold-set gold-v1 --budget <USD>` | `builds/classify/<run>/` (ledger, decisions, manifest) |
+| 16b | Validation | `canopy-news validate --set gold-v1` | `builds/validation/gold-v1.json` (α, precision, recall, per outlet, extension rule, stability) |
 | 17 | Coverage | `canopy-news coverage` | `builds/coverage/story-v01.parquet` |
 | 18 | Release files | `canopy-news release --version <v>` | `release/<v>/` |
 
