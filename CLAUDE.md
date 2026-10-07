@@ -64,6 +64,7 @@ uv run canopy-news embed run | submit | collect | status [--budget USD]   # Gemi
 uv run canopy-news labels round --at T | draw --set gold-v1 --round R   # pre-registered draw (PROTOCOL.md §6.1)
 uv run canopy-news labels page|import --set gold-v1 [--coder R1]
 ots stamp FILE ; ots upgrade FILE.ots ; ots verify FILE.ots                # OpenTimestamps (dev extra)
+uv run canopy-news classify run|submit|collect|status [--run main|repeat] [--budget USD] [--gold-set S]  # Message Batches ($)
 uv run canopy-news verify [--per-outlet N]
 uv run canopy-news release --version V                    # release/<V>/, no text
 python3 scripts/cost_model.py

@@ -68,6 +68,13 @@ def main(argv: list[str] | None = None) -> None:
 
     sub.add_parser("band", help="relevance stage 2: similarity to the story centroid, strata")
 
+    cl = sub.add_parser("classify", help="relevance stage 3: Message Batches run ($)")
+    cl.add_argument("action", choices=["run", "submit", "collect", "status"])
+    cl.add_argument("--run", default="main", help="run name: main, or repeat (stability)")
+    cl.add_argument("--budget", type=float, help="approved spend in USD; run/submit stop before it")
+    cl.add_argument("--gold-set", help="restrict to this gold set's articles (the repeat run)")
+    cl.add_argument("--limit", type=int, help="submit: at most N articles")
+
     rl = sub.add_parser("release", help="build the release files (no article text)")
     rl.add_argument("--version", required=True, help="dataset version, e.g. 1.0.0")
 
@@ -175,6 +182,20 @@ def main(argv: list[str] | None = None) -> None:
             with exclusive(lay, stage):
                 out[stage] = documents.dedupe_parts(d)
         print(json.dumps(out))
+    elif args.cmd == "classify":
+        from canopy_news import classify
+        ids = classify.gold_ids(lay, args.gold_set) if args.gold_set else None
+        if args.action in ("run", "submit") and args.budget is None:
+            p.error(f"classify {args.action} needs --budget (the approved spend)")
+        if args.action == "run":
+            out = classify.follow(lay, args.run, budget=args.budget, ids=ids)
+        elif args.action == "submit":
+            out = classify.submit(lay, args.run, budget=args.budget, ids=ids, limit=args.limit)
+        elif args.action == "collect":
+            out = classify.collect(lay, args.run)
+        else:
+            out = classify.status(lay, args.run)
+        print(json.dumps(out, indent=2))
     elif args.cmd == "release":
         from canopy_news import release
         print(json.dumps(release.build(lay, args.version), indent=2))
