@@ -1,0 +1,18 @@
+{
+  "set": "gold-v1",
+  "drawn_at": "2026-10-07T12:05:12.156673+00:00",
+  "seed": 6025998346221641041,
+  "population": 216036,
+  "excluded": 60,
+  "lexicon": "lex-b1efeadd83",
+  "embedding": "gemini-emb-2-d768",
+  "n": 300,
+  "quota": {
+    "candidate": 200,
+    "band-top10": 40,
+    "band-next20": 30,
+    "rest": 30
+  },
+  "min_per_outlet": 3,
+  "codebook_sha256": "9038236afd1a23dafc15830c34aa73d7c0d0d6311a3de31086af76b5a086c1ee"
+}
