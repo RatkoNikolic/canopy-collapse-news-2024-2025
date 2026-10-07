@@ -1,0 +1,11 @@
+outlet_id,route,source,include
+blic,sitemap,https://www.blic.rs/sitemap-stories-by-month-index.xml.gz,"sitemap-stories-by-month-\d{4}-\d{1,2}\.xml"
+telegraf,sitemap,https://www.telegraf.rs/xml/sitemap,"/xml/sitemap/\d{4}/m\d{1,2}$"
+n1,sitemap,https://n1info.rs/sitemap.xml,"sitemap_post_\d+\.xml"
+nova,sitemap,https://nova.rs/sitemap.xml,"sitemap_post_\d+\.xml"
+danas,sitemap,https://www.danas.rs/sitemap.xml,"/post-sitemap\d*\.xml"
+rts,naslovi,rts,
+b92,naslovi,b92,
+rts,listing,https://www.rts.rs/vesti/{section}.html?position={position},"drustvo|svet|politika|srbija-danas|hronika|region|ekonomija|vreme|ratu-u-ukrajini|servisne-informacije|podkast|smatracnica"
+pink,idprobe,https://www.pink.rs/vesti/{id}/x,
+informer,idprobe,https://informer.rs/{section}/{id}/x,"planeta/vesti|politika/vesti|hronika/vesti|drustvo/vesti|drustvo/srbija|drustvo/zastitnik-potrosaca|politika/kolumne|drustvo/nauka|planeta/balkan"

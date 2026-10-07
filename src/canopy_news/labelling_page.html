@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="sr-Latn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scope labelling</title>
+<style>
+:root { --bg:#fbfaf7; --fg:#1d1d1b; --muted:#6b6a65; --line:#e3e1da; --panel:#ffffff;
+        --accent:#2f5d8a; --yes:#2e7d4f; --no:#a33a2f; --sel:#fff3c4; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#161615; --fg:#e8e6e1; --muted:#9a9890; --line:#34332f; --panel:#1f1f1d;
+          --accent:#7fb0e0; --yes:#6cc28f; --no:#e58a7f; --sel:#4a4020; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+header { position:sticky; top:0; z-index:2; display:flex; gap:12px; align-items:center;
+         flex-wrap:wrap; padding:10px 16px; background:var(--panel); border-bottom:1px solid var(--line); }
+header .grow { flex:1; }
+.progress { height:4px; background:var(--line); }
+.progress div { height:100%; background:var(--accent); width:0; }
+main { display:grid; grid-template-columns:minmax(0,1fr) 380px; gap:24px; padding:20px 16px;
+       max-width:1280px; margin:0 auto; }
+@media (max-width: 900px) { main { grid-template-columns:1fr; } }
+article { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:20px 24px; }
+article h1 { font-size:1.35rem; line-height:1.3; margin:0 0 6px; cursor:pointer; }
+article .day { color:var(--muted); font-size:.9rem; margin-bottom:12px; }
+article .lead { font-weight:600; margin-bottom:12px; }
+.p { display:flex; gap:10px; padding:4px 6px; border-radius:4px; cursor:pointer; }
+.p:hover { background:color-mix(in srgb, var(--sel) 50%, transparent); }
+.p.sel, h1.sel { background:var(--sel); }
+.p .n { color:var(--muted); font-variant-numeric:tabular-nums; min-width:2.2em; text-align:right; }
+aside { display:flex; flex-direction:column; gap:16px; }
+.box { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px 16px; }
+.box h2 { font-size:.8rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:0 0 10px; }
+.row { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+button, .chip { font:inherit; border:1px solid var(--line); background:transparent; color:var(--fg);
+                border-radius:6px; padding:6px 12px; cursor:pointer; }
+button:hover { border-color:var(--accent); }
+.chip.on { background:var(--accent); color:var(--panel); border-color:var(--accent); }
+.chip.yes.on { background:var(--yes); border-color:var(--yes); }
+.chip.no.on { background:var(--no); border-color:var(--no); }
+.primary { background:var(--accent); color:var(--panel); border-color:var(--accent); }
+input[type=text], textarea { font:inherit; width:100%; padding:6px 8px; border:1px solid var(--line);
+                             border-radius:6px; background:var(--bg); color:var(--fg); }
+.muted { color:var(--muted); font-size:.85rem; }
+.err { color:var(--no); font-size:.9rem; min-height:1.2em; }
+kbd { font:12px ui-monospace, monospace; border:1px solid var(--line); border-radius:3px; padding:0 4px; }
+details pre { white-space:pre-wrap; font:13px/1.5 ui-monospace, monospace; max-height:60vh; overflow:auto; }
+.done { color:var(--yes); }
+</style>
+</head>
+<body>
+<header>
+  <strong id="title">Scope labelling</strong>
+  <span id="count" class="muted"></span>
+  <span class="grow"></span>
+  <label class="muted">Coder <input type="text" id="coder" size="6" style="width:6em"></label>
+  <button id="nextOpen" title="Next unlabelled">Next open</button>
+  <button id="file" title="Write every label to a file as you go (Chrome, Edge)">Save to file…</button>
+  <button id="export">Export</button>
+</header>
+<div class="progress"><div id="bar"></div></div>
+<main>
+  <article id="art"></article>
+  <aside>
+    <div class="box">
+      <h2>Decision</h2>
+      <div class="row">
+        <button class="chip yes" data-scope="true">In scope <kbd>y</kbd></button>
+        <button class="chip no" data-scope="false">Out <kbd>n</kbd></button>
+      </div>
+      <div class="row" id="clauses">
+        <button class="chip" data-c="1" title="Collapse">1 Collapse</button>
+        <button class="chip" data-c="2" title="Movement">2 Movement</button>
+        <button class="chip" data-c="3" title="Responses">3 Responses</button>
+        <button class="chip" data-c="4" title="Political consequences">4 Political</button>
+      </div>
+      <div class="muted" style="margin-bottom:10px">Evidence: <span id="ev">click the headline or a paragraph</span></div>
+      <div class="row">
+        <button class="chip" data-conf="high">high <kbd>h</kbd></button>
+        <button class="chip" data-conf="medium">medium <kbd>m</kbd></button>
+        <button class="chip" data-conf="low">low <kbd>l</kbd></button>
+      </div>
+      <textarea id="note" rows="2" placeholder="Note (optional)"></textarea>
+      <div class="err" id="err"></div>
+      <div class="row">
+        <button id="prev">← Prev</button>
+        <button id="save" class="primary">Save &amp; next <kbd>Enter</kbd></button>
+        <button id="skip">Next →</button>
+      </div>
+      <div class="muted">Keys: <kbd>y</kbd>/<kbd>n</kbd> scope · <kbd>1</kbd>–<kbd>4</kbd> clauses ·
+        <kbd>h</kbd>/<kbd>m</kbd>/<kbd>l</kbd> confidence · <kbd>←</kbd>/<kbd>→</kbd> move · <kbd>Enter</kbd> save</div>
+      <div class="muted" id="saved" style="margin-top:8px"></div>
+    </div>
+    <div class="box">
+      <details><summary>Codebook</summary><pre id="codebook"></pre></details>
+      <div class="muted" id="cbsha" style="margin-top:6px"></div>
+    </div>
+  </aside>
+</main>
+<script>
+const DATA = /*__DATA__*/null;
+const KEY = `labels:${DATA.set}:${DATA.coder || ''}:${DATA.codebook_sha256}`;
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+};
+let labels = store.get(KEY, {});            // event_id → label
+let i = store.get(KEY + ':pos', 0);
+let cur = null, fileHandle = null;
+const $ = s => document.querySelector(s);
+
+$('#title').textContent = `Scope labelling · ${DATA.set}` + (DATA.coder ? ` · reviewer ${DATA.coder}` : '');
+$('#codebook').textContent = DATA.codebook;
+$('#cbsha').textContent = `codebook sha256 ${DATA.codebook_sha256.slice(0, 12)}…`;
+$('#coder').value = DATA.coder || store.get('coder', '');
+if (DATA.coder) $('#coder').readOnly = true;   // an assigned page labels as its coder only
+$('#coder').addEventListener('change', e => store.set('coder', e.target.value.trim()));
+
+function blank() { return { in_scope: null, clauses: [], evidence: null, confidence: null, note: '' }; }
+
+function render() {
+  const it = DATA.items[i];
+  const prev = labels[it.id];
+  cur = prev ? { ...prev, clauses: [...prev.clauses] } : blank();
+  const art = $('#art');
+  art.innerHTML = '';
+  const h = document.createElement('h1'); h.textContent = it.title; h.dataset.ev = 'headline';
+  const day = document.createElement('div'); day.className = 'day'; day.textContent = it.day;
+  art.append(h, day);
+  if (it.lead) { const l = document.createElement('div'); l.className = 'lead'; l.textContent = it.lead; art.append(l); }
+  it.paras.forEach((t, k) => {
+    const p = document.createElement('div'); p.className = 'p'; p.dataset.ev = `p${k + 1}`;
+    const n = document.createElement('span'); n.className = 'n'; n.textContent = k + 1;
+    const s = document.createElement('span'); s.textContent = t;
+    p.append(n, s); art.append(p);
+  });
+  art.querySelectorAll('[data-ev]').forEach(el => el.addEventListener('click', () => toggleEv(el.dataset.ev)));
+  $('#note').value = cur.note || '';
+  $('#err').textContent = '';
+  store.set(KEY + ':pos', i);
+  window.scrollTo(0, 0);
+  paint();
+}
+
+function evList() { return cur.evidence ? cur.evidence.split(',') : []; }
+function toggleEv(ev) {
+  const xs = evList(); const k = xs.indexOf(ev);
+  if (k >= 0) xs.splice(k, 1); else xs.push(ev);
+  cur.evidence = xs.length ? xs.join(',') : null; paint();
+}
+
+function paint() {
+  document.querySelectorAll('[data-scope]').forEach(b => b.classList.toggle('on', String(cur.in_scope) === b.dataset.scope));
+  document.querySelectorAll('[data-c]').forEach(b => {
+    b.classList.toggle('on', cur.clauses.includes(+b.dataset.c));
+    b.disabled = cur.in_scope === false;
+  });
+  document.querySelectorAll('[data-conf]').forEach(b => b.classList.toggle('on', cur.confidence === b.dataset.conf));
+  const evs = evList();
+  document.querySelectorAll('#art [data-ev]').forEach(el => el.classList.toggle('sel', evs.includes(el.dataset.ev)));
+  $('#ev').textContent = cur.evidence || 'click the headline or a paragraph';
+  const n = Object.keys(labels).length, it = DATA.items[i];
+  $('#count').innerHTML = `${i + 1} / ${DATA.items.length} · ${n} labelled` +
+    (labels[it.id] ? ' · <span class="done">this one saved</span>' : '');
+  $('#bar').style.width = `${100 * n / DATA.items.length}%`;
+}
+
+function setScope(v) { cur.in_scope = v; if (!v) { cur.clauses = []; } paint(); }
+function toggleClause(c) {
+  if (cur.in_scope === false) return;
+  cur.in_scope = true;
+  const k = cur.clauses.indexOf(c); if (k >= 0) cur.clauses.splice(k, 1); else cur.clauses.push(c);
+  paint();
+}
+
+function check() {
+  const coder = $('#coder').value.trim();
+  if (!coder) return 'Enter your coder initials first.';
+  if (cur.in_scope === null) return 'Choose in scope or out.';
+  if (cur.in_scope && !cur.clauses.length) return 'In scope needs at least one clause.';
+  if (cur.in_scope && !cur.evidence) return 'In scope needs evidence: click the headline or a paragraph.';
+  if (!cur.confidence) return 'Choose a confidence.';
+  return null;
+}
+
+function lines() { return Object.values(labels).map(l => JSON.stringify(l)).join('\n') + '\n'; }
+
+async function persist() {
+  store.set(KEY, labels);
+  if (fileHandle) {
+    try { const w = await fileHandle.createWritable(); await w.write(lines()); await w.close();
+          $('#saved').textContent = `Written to ${fileHandle.name} at ${new Date().toLocaleTimeString()}`; }
+    catch (e) { $('#saved').textContent = `File write failed (${e.message}); labels are kept in this browser — use Export.`; }
+  } else {
+    $('#saved').textContent = 'Kept in this browser only. Use Export (or Save to file) to get them out.';
+  }
+}
+
+async function save() {
+  const err = check(); if (err) { $('#err').textContent = err; return; }
+  const it = DATA.items[i];
+  labels[it.id] = { event_id: it.id, in_scope: cur.in_scope, clauses: [...cur.clauses].sort(),
+    evidence: cur.in_scope ? cur.evidence : (cur.evidence || null), confidence: cur.confidence,
+    note: $('#note').value.trim() || null, coder: $('#coder').value.trim(),
+    labelled_at: new Date().toISOString(), codebook_sha256: DATA.codebook_sha256, set: DATA.set };
+  await persist();
+  if (i < DATA.items.length - 1) { i++; render(); } else { paint(); $('#err').textContent = 'Last item. Use Next open to find gaps.'; }
+}
+
+function move(d) { i = Math.min(DATA.items.length - 1, Math.max(0, i + d)); render(); }
+
+document.querySelectorAll('[data-scope]').forEach(b => b.addEventListener('click', () => setScope(b.dataset.scope === 'true')));
+document.querySelectorAll('[data-c]').forEach(b => b.addEventListener('click', () => toggleClause(+b.dataset.c)));
+document.querySelectorAll('[data-conf]').forEach(b => b.addEventListener('click', () => { cur.confidence = b.dataset.conf; paint(); }));
+$('#save').addEventListener('click', save);
+$('#prev').addEventListener('click', () => move(-1));
+$('#skip').addEventListener('click', () => move(1));
+$('#nextOpen').addEventListener('click', () => {
+  const k = DATA.items.findIndex((it, j) => j > i && !labels[it.id]);
+  const j = k >= 0 ? k : DATA.items.findIndex(it => !labels[it.id]);
+  if (j >= 0) { i = j; render(); } else { $('#err').textContent = 'All items labelled. Export and import them.'; }
+});
+$('#export').addEventListener('click', () => {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([lines()], { type: 'application/x-ndjson' }));
+  a.download = `${DATA.set}-${DATA.coder ? DATA.coder + '-' : ''}labels-${new Date().toISOString().slice(0, 19).replace(/:/g, '')}.jsonl`;
+  a.click(); URL.revokeObjectURL(a.href);
+});
+$('#file').addEventListener('click', async () => {
+  if (!window.showSaveFilePicker) { $('#saved').textContent = 'This browser cannot write files directly; use Export.'; return; }
+  try { fileHandle = await window.showSaveFilePicker({ suggestedName: `${DATA.set}-${DATA.coder ? DATA.coder + '-' : ''}labels.jsonl` }); await persist(); }
+  catch {}
+});
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea')) { if (e.key === 'Enter' && e.target.id === 'note' && !e.shiftKey) { e.preventDefault(); save(); } return; }
+  const k = e.key;
+  if (k === 'y') setScope(true); else if (k === 'n') setScope(false);
+  else if ('1234'.includes(k) && k.length === 1) toggleClause(+k);
+  else if (k === 'h') { cur.confidence = 'high'; paint(); }
+  else if (k === 'm') { cur.confidence = 'medium'; paint(); }
+  else if (k === 'l') { cur.confidence = 'low'; paint(); }
+  else if (k === 'ArrowLeft') move(-1); else if (k === 'ArrowRight') move(1);
+  else if (k === 'Enter') { e.preventDefault(); save(); }
+});
+i = Math.min(i, DATA.items.length - 1);
+render();
+</script>
+</body>
+</html>

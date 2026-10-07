@@ -1,0 +1,49 @@
+[project]
+name = "canopy-collapse-news"
+version = "1.0.0.dev0"
+description = "All news articles from nine Serbian online outlets, 1 Nov 2024 - 30 Apr 2025, as a verifiable index (URLs, dates, hashes), with a validated scope layer for the Novi Sad canopy collapse and the protest movement that followed."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Ratko Nikolić" }]
+dependencies = [
+    # data contract, append-only event log, run manifests (pinned by tag)
+    "chrono-harness[llm]",
+    # Serbian lemmatisation (CLASSLA-Stanza)
+    "classla>=2.1",
+    # already present transitively through the PydanticAI provider SDKs
+    "google-genai>=2.27",
+    "httpx>=0.27",
+    # main-text extraction from article pages
+    "trafilatura>=2.0",
+]
+
+[project.scripts]
+canopy-news = "canopy_news.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "opentimestamps-client>=0.7.2",
+    "playwright>=1.48",
+    "pytest>=8",
+    "ruff>=0.15,<0.16",
+]
+
+[tool.uv.sources]
+# the public harness, pinned to a release tag; bump the tag deliberately.
+# For local co-development, temporarily use { path = "../chrono-harness", editable = true }.
+chrono-harness = { git = "https://github.com/RatkoNikolic/chrono-harness", tag = "v0.1.0" }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/canopy_news"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

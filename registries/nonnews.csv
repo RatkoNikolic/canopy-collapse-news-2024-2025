@@ -1,0 +1,71 @@
+outlet_id,host,segment,reason
+n1,,magazin,lifestyle
+n1,,english,English edition
+n1,,najave-emisija,TV promos
+n1,,zeleni-kutak,lifestyle
+informer,,sport,sport
+informer,,dzet-set,celebrity
+informer,,magazin,lifestyle
+informer,,zabava,entertainment
+informer,,tv,TV and showbiz
+danas,,sport,sport
+danas,,zivot,lifestyle
+danas,,bbc-news-serbian,BBC syndication (BBC bans text and data mining)
+telegraf,,sport,sport
+telegraf,,jetset,celebrity
+telegraf,,zanimljivosti,curiosities
+telegraf,,pop-i-kultura,entertainment
+telegraf,,auto,lifestyle
+telegraf,,english,English edition
+telegraf,ljubimci.telegraf.rs,*,pets
+blic,,zabava,entertainment
+blic,,slobodno-vreme,lifestyle
+blic,,zdravlje,lifestyle
+blic,,sudbine,human-interest tabloid
+blic,,vremenska-prognoza,weather
+blic,,good-life,lifestyle
+blic,,like,lifestyle
+blic,,kvizovi,quizzes
+blic,,blicstrip,comics
+blic,,bbc,BBC syndication (BBC bans text and data mining)
+blic,,print,print-edition front pages (a photo of the page; no article text)
+blic,,auto,lifestyle
+blic,,maxvembar,promotion
+blic,,ai_4_life-bff,promotion
+pink,,zadruga,reality show
+pink,,farma,reality show
+pink,,showbiz,celebrity
+pink,,paparazzo,celebrity
+pink,,extra,entertainment
+pink,,sport,sport
+pink,,horoskop,horoscope
+pink,,lifestyle,lifestyle
+pink,,zdravlje,lifestyle
+pink,,dom-lepota-i-moda,lifestyle
+pink,,recepti,recipes
+pink,,ljubav,lifestyle
+pink,,pop-kultura,entertainment
+pink,,tv,TV and showbiz
+pink,,zivotinje,pets
+rts,,sport,sport
+rts,,magazin,lifestyle
+nova,,sport,sport
+nova,,fudbal-2,sport
+nova,,zabava,entertainment
+nova,,emisije,TV promos
+nova,,magazin,lifestyle
+nova,,prakticna-zena,lifestyle
+nova,,nova-show,entertainment
+b92,,sport,sport
+b92,,zivot,lifestyle
+b92,,putovanja,lifestyle
+b92,,zdravlje,lifestyle
+b92,,superzena,lifestyle
+b92,,automobili,lifestyle
+telegraf,plantbased.telegraf.rs,*,lifestyle (recipes)
+pink,,domaci,celebrity (domestic showbiz; found by the 2026-10-05 ID probe)
+pink,,farmeri,reality show (found by the 2026-10-05 ID probe)
+pink,,ostali-sportovi,sport (found by the 2026-10-05 ID probe)
+pink,,kosarka,sport (found by the 2026-10-05 ID probe)
+pink,,fudbal,sport (found by the 2026-10-05 ID probe)
+pink,,auto-tech,auto (found by the 2026-10-05 ID probe)

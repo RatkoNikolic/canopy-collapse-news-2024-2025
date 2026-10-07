@@ -1,0 +1,17 @@
+# Data directories (chrono-harness layout). raw/ holds the fetched pages and is never
+# published; log/, builds/ and runs/ are released only as the exported files in release/,
+# attached to a versioned release, never through git. gold/ and registries/ ARE committed.
+/raw/
+/log/
+/builds/
+/runs/
+/release/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+dist/
+.env

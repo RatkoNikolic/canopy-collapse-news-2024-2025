@@ -1,0 +1,20 @@
+outlet_id,name,domains,basis,rules_version,exclude_hosts,collect,eval_v01
+n1,N1,n1info.rs,A: DNR 2025/2026 online brands,r1,,yes,yes
+blic,Blic,blic.rs,A: DNR 2025/2026; C: national daily,r1,,yes,yes
+telegraf,Telegraf,telegraf.rs,A: DNR 2025/2026,r1,ona.telegraf.rs,yes,yes
+danas,Danas,danas.rs,A: DNR 2025/2026; C: national daily,r1,,yes,yes
+birn,BIRN Srbija,birn.rs,A: DNR 2025/2026,r1,,no,no
+nova,Nova,nova.rs,A: DNR 2025/2026; C: national daily (print since 2020),r1,,yes,yes
+radar,Radar,radar.nova.rs,A: DNR 2026,r1,,no,no
+rts,RTS,rts.rs,A: DNR 2025/2026; B: public service broadcaster,r1,,yes,yes
+srbijadanas,Srbija danas,srbijadanas.com sd.rs,A: DNR 2025/2026,r1,,no,no
+b92,B92,b92.net,A: DNR 2025/2026; B: national TV licence,r1,,yes,yes
+informer,Informer,informer.rs,A: DNR 2025/2026; C: national daily,r1,,yes,yes
+prva,Prva,prva.rs,A: DNR 2025/2026; B: national TV licence,r1,,no,no
+pink,Pink,pink.rs,A: DNR 2025/2026; B: national TV licence,r1,,yes,yes
+happy,Happy,happytv.rs,B: national TV licence,r1,,no,no
+politika,Politika,politika.rs,C: national daily,r1,zurnal.politika.rs,no,no
+novosti,Večernje novosti,novosti.rs,C: national daily,r1,,no,no
+alo,Alo,alo.rs,C: national daily,r1,,no,no
+srpskitelegraf,Srpski telegraf (web: Republika),republika.rs,C: national daily (Medijska mreža); web property republika.rs [discovery route to test],r1,,no,no
+tanjug,Tanjug,tanjug.rs,D: news agency,r1,,no,no

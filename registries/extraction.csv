@@ -1,0 +1,16 @@
+outlet_id,rule,value,reason
+informer,container,"//div[contains(concat(' ',normalize-space(@class),' '),' single-news-content ')]",teaser lists outside the article container were extracted as body (browser check: 7-15% of extracted text visible)
+n1,drop_line,Oglas|NAJČITANIJE|Najnovije|\s*Teme\s*,ad and list labels after the article
+n1,end_marker,Koje je vaše mišljenje o ovoj temi\?,comments prompt marks the end of the article
+danas,drop_line,Pratite nas na našoj Facebook.*,social and newsletter prompt appended to every article
+telegraf,drop_line,Video:.*,titles from an embedded promoted-video widget (same titles across unrelated articles)
+nova,container,"//article[contains(concat(' ',normalize-space(@class),' '),' article-wrapper ')]//div[contains(concat(' ',normalize-space(@class),' '),' xl:mx-20 ')]",trafilatura merged photo captions and the article into single lines and kept the header (browser check: 6% of extracted text visible); the body container excludes header and captions
+nova,end_marker,Pratite nas na društvenim mrežama:?,social prompt marks the end of the article
+nova,drop_line,Bonus video:.*,promoted-video title after the article
+rts,drop_line,"Izvor:\s*.{1,80}","page header source line (""Izvor: RTS, Tanjug""); 290 of 400 sampled, never below the header"
+rts,drop_line,"Autor:\s*.{1,80}",page header author line; 73 of 400 sampled; with the two lines above gone the repeated headline is the first line and is dropped as for every outlet
+rts,drop_line,"(ponedeljak|utorak|sreda|četvrtak|petak|subota|nedelja),\s*\d{2}\.\d{2}\.\d{4},?(\s*\d{2}:\d{2}(\s*->\s*\d{2}:\d{2})?)?",page header date line (published -> updated) above the body; 310 of 400 sampled articles; live blogs split it over two lines (2026-10-04)
+rts,drop_line,"\d{2}:\d{2}\s*->\s*\d{2}:\d{2}",second half of the split header date line on live blogs
+rts,drop_line,Opširnije|Kraće,"live-blog ""show more / show less"" buttons"
+b92,container,"//div[contains(concat(' ',normalize-space(@class),' '),' single-news-content ')]","the page appends ≈ 30 current-news teasers (article.news-item, dated at fetch time, e.g. Oct 2026) that were extracted as body in 67% of articles: future text inside 2024-25 articles; the body container excludes them (2026-10-05)"
+b92,drop_line,Možda vas zanima,"""you may also like"" label of an in-body recommendation (2026-10-05)"

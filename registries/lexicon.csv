@@ -1,0 +1,30 @@
+list,term,note
+collapse,nadstre[sš]nic\w* && (nov\w* sad\w*|stanic\w*),canopy with Novi Sad or station
+collapse,železničk\w* stanic\w* && nov\w* sad\w*,railway station with Novi Sad
+collapse,(pad\w*|uru[sš]avanj\w*|obru[sš]avanj\w*|ru[sš]enj\w*) nadstre[sš]nic\w*,collapse of the canopy
+collapse,novosadsk\w* tragedij\w*,Novi Sad tragedy
+collapse,(tragedij\w*|nesre[cć]\w*) u novom sadu,tragedy or accident in Novi Sad
+collapse,11[.:]52 && nov\w* sad\w*,time of the collapse with Novi Sad
+collapse,(14|15|16|četrnaest\w*|petnaest\w*|šesnaest\w*) (žrtv\w*|stradal\w*|poginul\w*|nastradal\w*|preminul\w*) && nov\w* sad\w*,victim counts with Novi Sad
+collapse,(15|16|petnaest\w*|šesnaest\w*)[ -]?minut\w* (tišin\w*|ćutanj\w*|šutnj\w*),15 or 16 minutes of silence
+collapse,(petnaest|šesnaest)ominutn\w* (tišin\w*|ćutanj\w*),fifteen/sixteen-minute silence
+collapse,infrastruktur\w* železnic\w* srbij\w*,Infrastruktura železnice Srbije
+collapse,slučaj\w* nadstre[sš]nic\w*,the Nadstrešnica case
+collapse,rekonstrukcij\w* (železničk\w* )?stanic\w* && nov\w* sad\w*,station reconstruction with Novi Sad
+collapse,viš\w* javn\w* tužila[sš]tv\w* u novom sadu,Novi Sad Higher Public Prosecutor
+collapse,tužila[sš]tv\w* za organizovan\w* kriminal\w* && (nadstre[sš]nic\w*|stanic\w*),organised-crime prosecutor with canopy or station
+neutral,student\w* && blokad\w*,students with blockade
+neutral,blokad\w* fakultet\w*,faculty blockade
+neutral,student\w* u blokad\w*,students in blockade
+neutral,\bplenum\w*,plenum
+neutral,\bprotest\w*,protest (broad: the classifier decides)
+protester,ruke su vam krvave,"""your hands are bloody"""
+protester,\bpumpaj\b,pumpaj
+protester,studentsk\w* zahtev\w*,student demands
+protester,\bzbor(a|ovi|ova|u|om|ovima|ove)?\b,citizens' assembly
+protester,korupcij\w* ubij\w*,corruption kills
+protester,\b15 za 15\b,15 za 15
+government,blokader\w*,blokaderi
+government,obojen\w* revolucij\w*,colour revolution
+government,tajkunsk\w* medij\w*,tycoon media
+government,student\w* koj\w* (žel\w*|hoć\w*) da uč\w*,students who want to study
