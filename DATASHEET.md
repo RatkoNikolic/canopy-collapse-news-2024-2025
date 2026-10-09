@@ -10,7 +10,9 @@ For **canopy-collapse-news-2024-2025**, following *Datasheets for Datasets* (Geb
   collapse of the Novi Sad railway-station canopy on 1 November 2024, built by a written
   method that others can check and reuse. A topic-filtered collection cannot show what it
   missed; this one indexes all news and marks the story within it.
-- **Who created it?** Ratko Nikolić, as an independent open project.
+- **Who created it?** Ratko Nikolić, Ana Fotev Nikolić and Ognjen Drča, as an independent open
+  project. Ratko Nikolić designed and built the collection and the scope layer; all three coded
+  the gold set.
 - **Funding:** none. Paid API use (embeddings, classifier) is self-funded and reported in
   `PROTOCOL.md`.
 

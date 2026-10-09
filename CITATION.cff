@@ -7,6 +7,10 @@ date-released: 2026-10-09
 authors:
   - family-names: Nikolić
     given-names: Ratko
+  - family-names: Fotev Nikolić
+    given-names: Ana
+  - family-names: Drča
+    given-names: Ognjen
 repository-code: "https://github.com/RatkoNikolic/canopy-collapse-news-2024-2025"
 license: CC-BY-4.0
 keywords:

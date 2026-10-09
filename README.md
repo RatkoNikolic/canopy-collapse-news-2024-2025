@@ -48,4 +48,8 @@ article since October 2026.
 ## Licence and citation
 
 Code: Apache-2.0. Derived data and documents: CC BY 4.0. The articles remain the property of
-their publishers and are not distributed. A citation with DOI comes with the v1.0 release.
+their publishers and are not distributed.
+
+Cite as: Nikolić, R., Fotev Nikolić, A., & Drča, O. (2026). *canopy-collapse-news-2024-2025*
+(v1.0.0) [Data set]. The DOI is added once the release is archived; `CITATION.cff` holds the
+citation metadata.
