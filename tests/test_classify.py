@@ -94,3 +94,10 @@ def test_collect_is_idempotent(tmp_path, monkeypatch):
     for _ in range(3):
         classify.collect(lay, "main", client=fake)
     assert len(classify.results(classify.run_dir(lay, "main"))) == 3       # no duplicate rows
+
+
+def test_release_keeps_only_evidence_pointers():
+    from canopy_news.release import pointers
+    assert pointers("p3") == "p3" and pointers("p10 - p12, headline") == "p10-p12, headline"
+    assert pointers("p1-p5: the article covers a reception; no paragraph connects it") == "p1-p5"
+    assert pointers("") is None and pointers(None) is None

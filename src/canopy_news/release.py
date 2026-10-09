@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import subprocess
 from datetime import datetime, time
 from pathlib import Path
@@ -37,6 +38,16 @@ from canopy_news.labels import codebook_sha256
 from canopy_news.nonnews import NonNews
 
 TEXT_COLUMNS = {"title", "lead", "body", "title_original", "body_original", "text", "lemmas"}
+_POINTER = re.compile(r"\bp\d+(?:\s*-\s*p\d+)?\b|\bheadline\b|\blead\b")
+
+
+def pointers(evidence: str | None) -> str | None:
+    """Only the paragraph pointers of an evidence value ("p3", "p10-p12", "headline", "lead"):
+    a model occasionally adds a sentence of its own, which is not released."""
+    if evidence is None:
+        return None
+    found = [re.sub(r"\s+", "", m) for m in _POINTER.findall(evidence)]
+    return ", ".join(found) or None
 
 
 def _listing(files) -> str:
@@ -115,7 +126,7 @@ def scope_rows(lay: Layout, article_ids: set[str]) -> list[dict]:
         out.append({**r, "classified": read and c is not None,
                     "classifier_in_scope": c["in_scope"] if c else None,
                     "classifier_clauses": c["clauses"] if c else None,
-                    "classifier_evidence": c["evidence"] if c else None,
+                    "classifier_evidence": pointers(c["evidence"]) if c else None,
                     "classifier_confidence": c["confidence"] if c else None,
                     "in_scope": bool(read and c and c["in_scope"])})
     return out
