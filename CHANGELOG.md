@@ -2,6 +2,9 @@
 
 ## 1.1.0 — 2026-10-09
 
+DOI 10.5281/zenodo.23261738.
+
+
 - `canopy-news hydrate`: rebuilds the article texts from the released index, fetching each
   article politely and checking it against `body_sha256` (matched / changed / gone / failed).
 - Documentation: the precise definition of the body hash (`PROTOCOL.md` §4).

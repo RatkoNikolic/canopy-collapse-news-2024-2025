@@ -6,8 +6,11 @@ version: 1.1.0
 doi: 10.5281/zenodo.23260972
 identifiers:
   - type: doi
+    value: 10.5281/zenodo.23261738
+    description: Version 1.1.0
+  - type: doi
     value: 10.5281/zenodo.23260973
-    description: This version (v1.0.0)
+    description: Version 1.0.0
   - type: doi
     value: 10.5281/zenodo.23260972
     description: All versions (latest)

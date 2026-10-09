@@ -63,6 +63,6 @@ their publishers and are not distributed.
 Cite as: Nikolić, R., Fotev Nikolić, A., & Drča, O. (2026). *canopy-collapse-news-2024-2025*
 [Data set]. Zenodo. https://doi.org/10.5281/zenodo.23260972
 
-That DOI always points to the latest version; each version also has its own (v1.0.0:
-https://doi.org/10.5281/zenodo.23260973). `CITATION.cff` holds the citation metadata; changes
+That DOI always points to the latest version; each version also has its own (v1.1.0:
+https://doi.org/10.5281/zenodo.23261738; v1.0.0: https://doi.org/10.5281/zenodo.23260973). `CITATION.cff` holds the citation metadata; changes
 between versions are in [`CHANGELOG.md`](./CHANGELOG.md).
