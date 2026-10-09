@@ -1,5 +1,7 @@
 # canopy-collapse-news-2024-2025
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23260973.svg)](https://doi.org/10.5281/zenodo.23260973)
+
 All news articles from nine Serbian online outlets, **1 November 2024 – 30 April 2025**, as a
 verifiable index, with a validated **scope layer** marking the articles about the collapse of
 the Novi Sad railway-station canopy on 1 November 2024 and the protest movement that followed.
@@ -51,5 +53,7 @@ Code: Apache-2.0. Derived data and documents: CC BY 4.0. The articles remain the
 their publishers and are not distributed.
 
 Cite as: Nikolić, R., Fotev Nikolić, A., & Drča, O. (2026). *canopy-collapse-news-2024-2025*
-(v1.0.0) [Data set]. The DOI is added once the release is archived; `CITATION.cff` holds the
-citation metadata.
+(v1.0.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.23260973
+
+The release files are archived on Zenodo with that DOI; https://doi.org/10.5281/zenodo.23260972
+always points to the latest version. `CITATION.cff` holds the citation metadata.
