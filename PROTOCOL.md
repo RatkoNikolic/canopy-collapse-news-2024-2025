@@ -6,7 +6,8 @@ done. It was finalised after collection (2–6 Oct 2026) and **before any gold l
 the classifier run**; decisions taken during collection, and what prompted them, are listed in
 [Appendix A](#appendix-a-decisions-made-during-collection). The method as registered is the
 commit timestamped in `timestamps/01-procedure.txt`; afterwards only the results were added
-(§6.5, the last two limits in §8, the scope columns of the release). Commands for every step are
+(§6.5, the last two limits in §8, the scope columns of the release), and, after v1.0.0, the
+precise definition of the body hash (§4) and the `hydrate` command (§7). Commands for every step are
 in [`REPRODUCE.md`](./REPRODUCE.md).
 
 Three rules apply in order, each mechanical and written down before it was used on the data
@@ -201,7 +202,7 @@ Every URL and its status: `index.parquet`; per outlet and day: `coverage.parquet
   original as metadata; on a check of 20 articles the transliteration is character for
   character RTS's own Latin edition.
 - **Records.** Per article: title, lead, body with paragraph offsets, publication date,
-  section, extractor version, body length and the **sha256 of the extracted body**.
+  section, extractor version, body length and the **body hash** (`body_sha256`): the first 32 hex digits of the sha256 of the extracted Latin body after lowercasing, turning punctuation into spaces and collapsing whitespace, so equal hashes mean the same words in the same order.
 - **Lemmas.** CLASSLA 2.2.3, Serbian standard models (`tokenize, pos, lemma`), over title,
   lead and body. Model files by sha256: lemma `8e75086b…f835395`, pos `dba8c6a1…c29314ea`,
   pretrain `563b3847…7a09ef`.
@@ -427,9 +428,11 @@ sample, assignment and labels (decisions only); and, per version, attached to th
 **Not published:** stored pages, article text, titles, lemmas, and the embedding vectors.
 
 **Verification without the text.** Anyone can fetch a URL from the index, extract it with the
-published code and compare the body's sha256 with `body_sha256`: equal means the same text,
+published code and compare its body hash (§4) with `body_sha256`: equal means the same text,
 different means the outlet has since edited or removed it. `canopy-news verify` does this for
 a seeded sample per outlet; on 6 Oct 2026, 179 of 180 articles (20 per outlet) were unchanged.
+`canopy-news hydrate` does it for the whole index, or for the in-scope articles, and keeps the
+texts locally: the way to rebuild the corpus for research without anyone redistributing it.
 The scope layer can be checked from the published scores and strata; recomputing the scores
 needs the embeddings again (≈ $17) and the same model version.
 

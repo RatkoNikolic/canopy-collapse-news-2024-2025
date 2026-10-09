@@ -1,6 +1,6 @@
 # canopy-collapse-news-2024-2025
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23260973.svg)](https://doi.org/10.5281/zenodo.23260973)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23260972.svg)](https://doi.org/10.5281/zenodo.23260972)
 
 All news articles from nine Serbian online outlets, **1 November 2024 – 30 April 2025**, as a
 verifiable index, with a validated **scope layer** marking the articles about the collapse of
@@ -17,7 +17,7 @@ the Novi Sad railway-station canopy on 1 November 2024 and the protest movement 
 |---|---|
 | Outlets | Blic, Danas, Informer · RTS, B92, Pink · N1, Telegraf, Nova (three per media type, by reach) |
 | Articles | 216,050 in the corpus (217,660 URLs reached) |
-| Per article | URL, outlet, publication and fetch time, discovery route, sha256 of the page and of the extracted text, scope decision |
+| Per article | URL, outlet, publication and fetch time, discovery route, sha256 of the page, a hash of the extracted text, scope decision |
 | In scope | 43,611 articles, each with clauses, the deciding paragraph and the classifier's confidence |
 | Gold set | 300 articles labelled for scope by three coders, drawn by a public random beacon after the procedure was timestamped |
 | Not included | article text, titles, embeddings (the outlets' copyright; the hashes make the text verifiable) |
@@ -34,18 +34,26 @@ the Novi Sad railway-station canopy on 1 November 2024 and the protest movement 
 - [`docs/error_analysis.md`](./docs/error_analysis.md): where the scope layer and the coders
   disagree, and why.
 
-## Verify an article
+## Get the texts, and check them
 
-Every release row carries `body_sha256`, the hash of the extracted text. Fetch the URL,
-extract it with this code and compare:
+The release has no article text, but every row carries `body_sha256`, a hash of the extracted
+text (`PROTOCOL.md` §4). `hydrate` fetches the articles from the outlets, politely, extracts
+them with this code and checks each against that hash:
 
 ```bash
 uv sync --extra dev
-uv run canopy-news verify --per-outlet 20      # a seeded sample per outlet against the live web
+# index.parquet and scope.parquet from the release (GitHub or Zenodo)
+uv run canopy-news hydrate --index index.parquet --scope scope.parquet --in-scope-only --out texts
+uv run canopy-news hydrate --index index.parquet --outlets rts --limit 100 --out texts   # a slice
 ```
 
-Equal hashes mean the same text; a difference means the outlet has edited or removed the
-article since October 2026.
+Each article comes back **matched** (the same text as collected), **changed** (edited by the
+outlet since October 2026, kept and flagged), **gone** or **failed**. The run resumes where it
+stopped. Sites are fetched in parallel at ≥ 2 s per request each: about 6 hours for the
+in-scope articles, about a day for the whole index. The texts
+are the outlets' copyright: use them for your research, do not redistribute them.
+
+`uv run canopy-news verify --per-outlet 20` does the same check on a seeded sample only.
 
 ## Licence and citation
 
@@ -53,7 +61,8 @@ Code: Apache-2.0. Derived data and documents: CC BY 4.0. The articles remain the
 their publishers and are not distributed.
 
 Cite as: Nikolić, R., Fotev Nikolić, A., & Drča, O. (2026). *canopy-collapse-news-2024-2025*
-(v1.0.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.23260973
+[Data set]. Zenodo. https://doi.org/10.5281/zenodo.23260972
 
-The release files are archived on Zenodo with that DOI; https://doi.org/10.5281/zenodo.23260972
-always points to the latest version. `CITATION.cff` holds the citation metadata.
+That DOI always points to the latest version; each version also has its own (v1.0.0:
+https://doi.org/10.5281/zenodo.23260973). `CITATION.cff` holds the citation metadata; changes
+between versions are in [`CHANGELOG.md`](./CHANGELOG.md).

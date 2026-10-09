@@ -6,6 +6,8 @@
 /builds/
 /runs/
 /release/
+# hydrated article texts: the outlets' copyright, never committed
+/texts/
 
 # Python
 .venv/

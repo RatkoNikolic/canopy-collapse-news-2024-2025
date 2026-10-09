@@ -75,6 +75,14 @@ def main(argv: list[str] | None = None) -> None:
     cl.add_argument("--gold-set", help="restrict to this gold set's articles (the repeat run)")
     cl.add_argument("--limit", type=int, help="submit: at most N articles")
 
+    hy = sub.add_parser("hydrate", help="rebuild the article texts from the released index")
+    hy.add_argument("--index", required=True, help="the release's index.parquet")
+    hy.add_argument("--scope", help="the release's scope.parquet (for --in-scope-only)")
+    hy.add_argument("--in-scope-only", action="store_true", help="only articles in scope")
+    hy.add_argument("--outlets", help="comma-separated outlet ids, e.g. n1,rts")
+    hy.add_argument("--limit", type=int, help="at most N articles")
+    hy.add_argument("--out", default="texts", help="output folder (default: texts/)")
+
     va = sub.add_parser("validate", help="precision, recall, agreement against a gold set")
     va.add_argument("--set", required=True, help="gold set, e.g. gold-v1")
 
@@ -198,6 +206,16 @@ def main(argv: list[str] | None = None) -> None:
             out = classify.collect(lay, args.run)
         else:
             out = classify.status(lay, args.run)
+        print(json.dumps(out, indent=2))
+    elif args.cmd == "hydrate":
+        from pathlib import Path
+
+        from canopy_news import hydrate
+        out = hydrate.run(lay, Path(args.index), out=Path(args.out),
+                          scope=Path(args.scope) if args.scope else None,
+                          in_scope_only=args.in_scope_only,
+                          outlets=set(args.outlets.split(",")) if args.outlets else None,
+                          limit=args.limit)
         print(json.dumps(out, indent=2))
     elif args.cmd == "validate":
         from canopy_news import validate

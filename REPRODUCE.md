@@ -83,4 +83,6 @@ uv run canopy-news verify --per-outlet 20 [--outlets rts,blic]
 Fetches a seeded random sample of stored articles again (same etiquette as the fetcher),
 extracts them with the same extractor, and reports per outlet how many are **unchanged** (same
 body hash), **edited** (with a similarity ratio), **gone** (404/410) or **failed**. Without the
-stored pages, a reviewer compares a fresh extraction with `body_sha256` in `index.parquet`.
+stored pages, a reviewer compares a fresh extraction with `body_sha256` in `index.parquet`;
+`canopy-news hydrate --index index.parquet [--scope scope.parquet --in-scope-only]` does that
+for every article and keeps the texts locally (README).

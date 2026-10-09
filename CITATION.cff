@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use this dataset, please cite it as below."
 title: "canopy-collapse-news-2024-2025: Serbian online news, 1 November 2024 – 30 April 2025, with a validated scope layer for the Novi Sad canopy collapse and the protest movement"
 type: dataset
-version: 1.0.0
-doi: 10.5281/zenodo.23260973
+version: 1.1.0
+doi: 10.5281/zenodo.23260972
 identifiers:
   - type: doi
     value: 10.5281/zenodo.23260973

@@ -1,6 +1,6 @@
 [project]
 name = "canopy-collapse-news"
-version = "1.0.0"
+version = "1.1.0"
 description = "All news articles from nine Serbian online outlets, 1 Nov 2024 - 30 Apr 2025, as a verifiable index (URLs, dates, hashes), with a validated scope layer for the Novi Sad canopy collapse and the protest movement that followed."
 readme = "README.md"
 requires-python = ">=3.11"

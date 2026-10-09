@@ -67,6 +67,7 @@ ots stamp FILE ; ots upgrade FILE.ots ; ots verify FILE.ots                # Ope
 uv run canopy-news classify run|submit|collect|status [--run main|repeat] [--budget USD] [--gold-set S]  # Message Batches ($)
 uv run canopy-news validate --set gold-v1                 # PROTOCOL.md §6.4 figures
 uv run canopy-news verify [--per-outlet N]
+uv run canopy-news hydrate --index index.parquet [--scope scope.parquet --in-scope-only] [--out texts]
 uv run canopy-news release --version V                    # release/<V>/, no text
 python3 scripts/cost_model.py
 uv run python scripts/classifier_pilot.py [--cap USD]      # classifier arms on non-gold articles ($)

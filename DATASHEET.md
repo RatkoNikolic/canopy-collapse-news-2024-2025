@@ -70,6 +70,8 @@ stages. The raw pages are kept privately, so every step can be rerun.
 
 ## Uses
 
+- **Getting the text:** `canopy-news hydrate` rebuilds the texts from the index, checking each
+  against its hash (README); the texts are not redistributed.
 - **Intended:** research on news coverage of the story; method research on topic scoping and
   dataset validation; as a frame (the index) to re-collect text for non-commercial research
   where the law allows text and data mining.
