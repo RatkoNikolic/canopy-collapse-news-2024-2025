@@ -1,8 +1,7 @@
 # Datasheet
 
 For **canopy-collapse-news-2024-2025**, following *Datasheets for Datasets* (Gebru et al.,
-2021). Method details are in [`PROTOCOL.md`](./PROTOCOL.md); figures below are those of the
-current build and are final at the v1.0 release.
+2021). Method details are in [`PROTOCOL.md`](./PROTOCOL.md); figures are those of v1.0.
 
 ## Motivation
 
@@ -30,11 +29,17 @@ current build and are final at the v1.0 release.
   fetch time (UTC), date source, discovery route, sha256 of the stored page and of the
   extracted body, body length, extractor version; and in the scope layer: lexicon hits, band
   score and stratum, classifier decision and clauses.
+- **Scope layer:** **43,611 articles in scope** (Danas 10,193 · N1 9,221 · Nova 7,008 ·
+  Informer 5,480 · Pink 3,878 · Blic 3,208 · Telegraf 1,902 · B92 1,594 · RTS 1,127), decided by
+  the three-stage procedure (`PROTOCOL.md` §5); precision 0.846 (0.792–0.897), recall 0.954
+  (0.905–0.995) against the gold set, per outlet in `validation.json`.
 - **Labels:** 300 articles hand-labelled for scope by three coders (`gold/scope_labels/`);
-  scope decisions for all articles by the three-stage procedure (`PROTOCOL.md` §5).
+  agreement on in or out α = 0.887 (50 articles coded by all three).
 - **Not released:** article text, titles, lemmas, stored pages, embedding vectors (copyright
   of the outlets; the hashes make the text verifiable without publishing it).
-- **Errors and noise:** extraction checked per outlet (`docs/extraction_qa.md`); publication
+- **Errors and noise:** the scope layer leans inclusive, unevenly by outlet (Informer's
+  precision 0.60; `docs/error_analysis.md`); extraction checked per outlet
+  (`docs/extraction_qa.md`); publication
   dates read from the page for all but 221 articles (discovery date instead); text as
   collected in Oct 2026, which may differ from the text at publication.
 - **Confidentiality and sensitivity:** published journalism only. Articles name people,
@@ -67,7 +72,8 @@ stages. The raw pages are kept privately, so every step can be rerun.
   dataset validation; as a frame (the index) to re-collect text for non-commercial research
   where the law allows text and data mining.
 - **Not suited for:** comparing outlets' quality or bias without further annotation (the
-  dataset makes no such judgement); claims about outlets not collected (§2.3 of the protocol);
+  dataset makes no such judgement); comparing outlets' in-scope counts without allowing for
+  per-outlet precision; claims about outlets not collected (§2.3 of the protocol);
   anything requiring the text as published rather than as collected.
 
 ## Distribution

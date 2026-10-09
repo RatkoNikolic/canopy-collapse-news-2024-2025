@@ -4,10 +4,10 @@ All news articles from nine Serbian online outlets, **1 November 2024 – 30 Apr
 verifiable index, with a validated **scope layer** marking the articles about the collapse of
 the Novi Sad railway-station canopy on 1 November 2024 and the protest movement that followed.
 
-> **Status: v1.0 in preparation.** Collection and processing are complete. The gold set is
-> pre-registered (`PROTOCOL.md` §6.1): its procedure is timestamped before a public beacon
-> fixes its seed, and its draw before the first label. The labels and the classifier run
-> follow; then the release files and validation figures.
+> **v1.0.** 43,611 of 216,050 articles in scope, with precision **0.846** (0.792–0.897) and
+> recall **0.954** (0.905–0.995) against a pre-registered gold set of 300 articles labelled by
+> three coders (agreement α 0.887). Per-outlet figures and their limits: `PROTOCOL.md` §6.5,
+> `docs/error_analysis.md`.
 
 ## What is in it
 
@@ -16,7 +16,8 @@ the Novi Sad railway-station canopy on 1 November 2024 and the protest movement 
 | Outlets | Blic, Danas, Informer · RTS, B92, Pink · N1, Telegraf, Nova (three per media type, by reach) |
 | Articles | 216,050 in the corpus (217,660 URLs reached) |
 | Per article | URL, outlet, publication and fetch time, discovery route, sha256 of the page and of the extracted text, scope decision |
-| Gold set | 300 articles labelled for scope by three coders |
+| In scope | 43,611 articles, each with clauses, the deciding paragraph and the classifier's confidence |
+| Gold set | 300 articles labelled for scope by three coders, drawn by a public random beacon after the procedure was timestamped |
 | Not included | article text, titles, embeddings (the outlets' copyright; the hashes make the text verifiable) |
 
 ## Documents
@@ -28,6 +29,8 @@ the Novi Sad railway-station canopy on 1 November 2024 and the protest movement 
 - [`REPRODUCE.md`](./REPRODUCE.md): every step as a command; how to verify the release.
 - [`LABELLING_GUIDE.md`](./LABELLING_GUIDE.md): instructions for the human coders.
 - [`docs/extraction_qa.md`](./docs/extraction_qa.md): text extraction quality per outlet.
+- [`docs/error_analysis.md`](./docs/error_analysis.md): where the scope layer and the coders
+  disagree, and why.
 
 ## Verify an article
 

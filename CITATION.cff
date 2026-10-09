@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite it as below."
+title: "canopy-collapse-news-2024-2025: Serbian online news, 1 November 2024 – 30 April 2025, with a validated scope layer for the Novi Sad canopy collapse and the protest movement"
+type: dataset
+version: 1.0.0
+date-released: 2026-10-09
+authors:
+  - family-names: Nikolić
+    given-names: Ratko
+repository-code: "https://github.com/RatkoNikolic/canopy-collapse-news-2024-2025"
+license: CC-BY-4.0
+keywords:
+  - Serbia
+  - news
+  - media
+  - protests
+  - Novi Sad
+  - canopy collapse
+  - dataset
+  - provenance
+abstract: >-
+  All news articles from nine Serbian online outlets (Blic, Danas, Informer, RTS, B92, Pink, N1,
+  Telegraf, Nova) published 1 November 2024 – 30 April 2025, as a verifiable index (URLs, dates,
+  sha256 of page and text; no article text), with a scope layer marking the 43,611 articles about
+  the collapse of the Novi Sad railway-station canopy and the protest movement that followed.
+  The scope layer is validated against a pre-registered gold set of 300 articles labelled by
+  three coders: precision 0.846, recall 0.954.

@@ -4,8 +4,10 @@
 to the set of articles about the story, and how that set is validated. It describes what was
 done. It was finalised after collection (2–6 Oct 2026) and **before any gold label and before
 the classifier run**; decisions taken during collection, and what prompted them, are listed in
-[Appendix A](#appendix-a-decisions-made-during-collection). Commands for every step are in
-[`REPRODUCE.md`](./REPRODUCE.md).
+[Appendix A](#appendix-a-decisions-made-during-collection). The method as registered is the
+commit timestamped in `timestamps/01-procedure.txt`; afterwards only the results were added
+(§6.5, the last two limits in §8, the scope columns of the release). Commands for every step are
+in [`REPRODUCE.md`](./REPRODUCE.md).
 
 Three rules apply in order, each mechanical and written down before it was used on the data
 it governs:
@@ -362,6 +364,51 @@ Reported whatever they are, each with a 95% interval:
 
 Intervals: Wilson for simple proportions, bootstrap over the stratified design for recall.
 
+### 6.5 Results (v1.0)
+
+Labelling: 400 labels by three coders on all 300 gold articles (R1 134, R2 133, R3 133;
+7–8 Oct 2026), none rejected at import. Classifier: 60,279 of 60,279 articles decided, none
+failed (7 Oct 2026); the stability run decided 240 of 240 gold articles.
+
+| Estimate | Value | 95% interval |
+|---|---|---|
+| Precision | **0.846** | 0.792–0.897 |
+| Recall | **0.954** | 0.905–0.995 |
+| Agreement between coders, in or out (α, 50 shared articles) | **0.887** | |
+| Agreement by clause (α): 1 collapse · 2 movement · 3 responses · 4 political | 0.736 · 0.533 · 0.759 · 0.903 | |
+| Classifier stability (identical decision on the rerun) | 237 / 240 = 0.988 | 0.964–0.996 |
+
+Precision and recall are both design-weighted ratios, so both intervals come from the
+stratified bootstrap (2,000 resamples within stratum × outlet cells); stability, a simple
+proportion, uses Wilson.
+
+| Outlet | Gold articles | Precision | Recall |
+|---|---|---|---|
+| RTS | 16 | 1.000 | 1.000 |
+| Pink | 26 | 0.943 | 1.000 |
+| Nova | 40 | 0.934 | 0.966 |
+| Telegraf | 24 | 0.922 | 0.922 |
+| N1 | 54 | 0.919 | 0.840 |
+| Danas | 58 | 0.857 | 1.000 |
+| Blic | 30 | 0.801 | 1.000 |
+| B92 | 18 | 0.793 | 1.000 |
+| Informer | 34 | 0.603 (0.394–0.791) | 1.000 |
+
+Per-outlet intervals are wide (16–58 gold articles each; all in `validation.json`); a recall
+of 1.000 means no miss among that outlet's gold articles.
+
+**Extension rule (§5.4):** band-next20 holds an estimated 3.0% of all in-scope articles
+(≈ 1,251) and rest 0%; both are below 5%, so the classifier was not extended. Those articles
+count as missed in the recall.
+
+**The scope layer:** **43,611 articles in scope** (36,349 lexicon candidates and 7,262 from
+band-top10, which the lexicon alone would have missed). By outlet: Danas 10,193 · N1 9,221 ·
+Nova 7,008 · Informer 5,480 · Pink 3,878 · Blic 3,208 · Telegraf 1,902 · B92 1,594 ·
+RTS 1,127. Where the pipeline and the coders disagree, and why: `docs/error_analysis.md`.
+
+**Cost:** embeddings ≈ $20.02, classifier pilot $0.62, classifier $109.40 (main run $108.96,
+stability run $0.44).
+
 ---
 
 ## 7. Release and verification
@@ -372,7 +419,8 @@ sample, assignment and labels (decisions only); and, per version, attached to th
 | File | Content |
 |---|---|
 | `index.parquet` | one row per article URL reached in the window: outlet, status (`article`, `gone`, `dated_out`, `excluded_section`, `no_text:<reason>`), publication and fetch times (UTC), date source, discovery route, sha256 of the stored page and of the extracted body, body length, extractor version |
-| `scope.parquet` | per article: lexicon hits by list, band score and stratum, classifier decision and clauses |
+| `scope.parquet` | per article: lexicon hits by list, band score and stratum, whether the classifier read it, its decision, clauses, evidence paragraph and confidence, and the final `in_scope` |
+| `validation.json` | the figures of §6.5, per outlet included |
 | `coverage.parquet` | discovered, fetched, dated out, gone and failed URLs per outlet × day |
 | `manifest.json`, `SHA256SUMS` | version, code commit, counts, lexicon, embedding and codebook versions; file checksums |
 
@@ -399,6 +447,12 @@ needs the embeddings again (≈ $17) and the same model version.
 - **Excluded outlets** (§2.3) leave gaps, notably Kurir, Mondo and RTV.
 - **Embedding-dependent stage:** the band (§5.3) depends on a hosted model; a different model
   or version gives a different ranking.
+- **The in-scope set leans inclusive** (precision 0.85): most over-inclusions are articles
+  whose link to the movement is implicit, and they are not even across outlets (Informer's
+  precision 0.60). Per-outlet counts of in-scope articles should be read with the per-outlet
+  precision (`docs/error_analysis.md`).
+- **Clause 2 (the movement's own actions)** is the least reliable clause between coders
+  (α 0.533); clause-level analyses should allow for it.
 
 ---
 

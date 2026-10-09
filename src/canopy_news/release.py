@@ -5,8 +5,10 @@
 - index.parquet: one row per article URL the fetch reached in the window: outlet, status,
   publication and fetch times (UTC), how the date was obtained, the discovery route, the
   sha256 of the stored page and of the extracted body, body length, extractor version.
-- scope.parquet: per article in the corpus: lexicon hits, band score and stratum, and
-  (once run) the classifier's decision and clauses.
+- scope.parquet: per article in the corpus: lexicon hits, band score and stratum, whether the
+  classifier read it, its decision, clauses, evidence paragraph and confidence, and the final
+  `in_scope` (classified and judged in scope).
+- validation.json: the figures of PROTOCOL.md §6.5 (from `canopy-news validate`).
 - coverage.parquet: discovered / fetched / dated_out / gone / failed per outlet × day.
 - manifest.json and SHA256SUMS.
 
@@ -28,7 +30,7 @@ import pyarrow.parquet as pq
 from chrono_harness import EventLog, Layout
 from chrono_harness.timeutil import now_utc, to_utc
 
-from canopy_news import embeddings, lexicon
+from canopy_news import classify, embeddings, lexicon
 from canopy_news.config import CORPUS, WINDOWS, repo_root
 from canopy_news.documents import current_inserts, doc_dir, soft_404
 from canopy_news.labels import codebook_sha256
@@ -102,7 +104,21 @@ def scope_rows(lay: Layout, article_ids: set[str]) -> list[dict]:
         b.score AS band_score, b.stratum AS band_stratum
         FROM read_parquet('{lex}') l LEFT JOIN read_parquet('{band}') b USING (event_id)
         ORDER BY l.event_id""").to_arrow_table().to_pylist()
-    return [r for r in rows if r["event_id"] in article_ids]
+    dec = {r["event_id"]: r for r in classify.results(classify.run_dir(lay, "main"))
+           if r["status"] == "succeeded"}
+    out = []
+    for r in rows:
+        if r["event_id"] not in article_ids:
+            continue
+        c = dec.get(r["event_id"])
+        read = r["band_stratum"] in classify.RUN_STRATA
+        out.append({**r, "classified": read and c is not None,
+                    "classifier_in_scope": c["in_scope"] if c else None,
+                    "classifier_clauses": c["clauses"] if c else None,
+                    "classifier_evidence": c["evidence"] if c else None,
+                    "classifier_confidence": c["confidence"] if c else None,
+                    "in_scope": bool(read and c and c["in_scope"])})
+    return out
 
 
 def _write(rows: list[dict], path: Path) -> None:
@@ -123,11 +139,16 @@ def build(lay: Layout, version: str) -> dict:
     index = index_rows(lay)
     _write(index, out / "index.parquet")
     articles = {r["event_id"] for r in index if r["status"] == "article"}
-    _write(scope_rows(lay, articles), out / "scope.parquet")
+    scope = scope_rows(lay, articles)
+    _write(scope, out / "scope.parquet")
     cov = lay.build_dir("coverage") / "story-v01.parquet"
     if not cov.exists():
         raise SystemExit("coverage missing: run `canopy-news coverage` first")
     pq.write_table(pq.read_table(cov), out / "coverage.parquet", compression="zstd")
+    val = lay.build_dir("validation") / "gold-v1.json"
+    if not val.exists():
+        raise SystemExit("validation missing: run `canopy-news validate --set gold-v1` first")
+    (out / "validation.json").write_text(val.read_text())
     status: dict[str, int] = {}
     for r in index:
         status[r["status"]] = status.get(r["status"], 0) + 1
@@ -139,7 +160,11 @@ def build(lay: Layout, version: str) -> dict:
                 "window": {"start": WINDOWS["story-v01"].start.isoformat(),
                            "end": WINDOWS["story-v01"].end.isoformat()},
                 "urls": len(index), "status": dict(sorted(status.items())),
-                "articles": len(articles), "lexicon": lexicon.version(lexicon.load()),
+                "articles": len(articles), "classified": sum(r["classified"] for r in scope),
+                "in_scope": sum(r["in_scope"] for r in scope),
+                "classifier": {"model": classify.ARMS[classify.RUN_ARM].model,
+                               **classify.ARMS[classify.RUN_ARM].params},
+                "lexicon": lexicon.version(lexicon.load()),
                 "embedding": embeddings.EMBED_VERSION, "codebook_sha256": codebook_sha256()}
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     files = sorted(p for p in out.iterdir() if p.name != "SHA256SUMS")
